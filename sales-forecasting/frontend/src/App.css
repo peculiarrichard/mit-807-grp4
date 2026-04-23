@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --amber: #f59e0b;
+    --amber-dim: #d97706;
+    --amber-glow: rgba(245, 158, 11, 0.15);
+    --bg: #0b0e14;
+    --surface: #111620;
+    --surface2: #161c2a;
+    --border: #1e2a3a;
+    --border2: #243040;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --muted2: #94a3b8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body, #root {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+}
+
+@layer components {
+  /* Noise texture overlay */
+  .noise-bg {
+    position: relative;
+  }
+  .noise-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0.4;
+  }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+  .card-glow {
+    box-shadow: 0 0 0 1px var(--border), 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 1.5px dashed var(--border2);
+    border-radius: 14px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  .upload-zone:hover {
+    border-color: var(--amber-dim);
+    background: var(--amber-glow);
+  }
+  .upload-zone.has-file {
+    border-color: var(--amber);
+    border-style: solid;
+    background: rgba(245,158,11,0.06);
+  }
+
+  /* Metric card */
+  .metric-card {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    animation: slide_up 0.4s ease forwards;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  }
+
+  /* Primary button */
+  .btn-primary {
+    background: linear-gradient(135deg, #d97706, #f59e0b);
+    color: #000;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 11px 28px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 20px rgba(245,158,11,0.25);
+  }
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(245,158,11,0.38);
+  }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  /* Ghost button */
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+  }
+  .btn-ghost:hover {
+    border-color: var(--muted);
+    color: var(--text);
+    background: rgba(255,255,255,0.03);
+  }
+
+  /* Number input */
+  .num-input {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 8px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .num-input:focus { border-color: var(--amber-dim); }
+
+  /* Chart tooltip */
+  .chart-tooltip {
+    background: #0d1119;
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+}
+
+@keyframes slide_up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes count_in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}

@@ -1,0 +1,6 @@
+setuptools>=65.5.0
+flask==3.1.0
+flask-cors==5.0.0
+numpy==2.1.0
+pandas==2.2.3
+scikit-learn==1.5.2

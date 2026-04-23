@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
+
+@layer base {
+  :root {
+    --cyan: #00f0ff;
+    --cyan-dim: #00b8c4;
+    --bg: #030d12;
+    --surface: #071520;
+    --surface2: #0c2030;
+    --border: #0e3a52;
+    --text: #c8eaf5;
+    --muted: #4a7a90;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body, #root { height: 100%; background: var(--bg); color: var(--text); }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--surface); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+}
+
+@layer components {
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(0,240,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,240,255,0.025) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+  .glass {
+    background: linear-gradient(135deg, rgba(7,21,32,0.95), rgba(12,32,48,0.8));
+    border: 1px solid var(--border);
+  }
+  .node-current { filter: drop-shadow(0 0 8px #f59e0b) drop-shadow(0 0 20px #f59e0b55); }
+  .node-visited  { filter: drop-shadow(0 0 6px #22c55e) drop-shadow(0 0 14px #22c55e44); }
+  .node-frontier { filter: drop-shadow(0 0 6px #00f0ff) drop-shadow(0 0 14px #00f0ff44); }
+  .node-start    { filter: drop-shadow(0 0 8px #60a5fa) drop-shadow(0 0 16px #60a5fa44); }
+
+  .algo-pill {
+    @apply px-4 py-1.5 rounded-full border text-xs font-semibold tracking-widest uppercase transition-all duration-200 cursor-pointer select-none;
+    font-family: 'JetBrains Mono', monospace;
+    border-color: var(--border);
+    color: var(--muted);
+  }
+  .algo-pill:hover { border-color: var(--cyan-dim); color: var(--cyan); }
+  .algo-pill.active {
+    background: rgba(0,240,255,0.1);
+    border-color: var(--cyan);
+    color: var(--cyan);
+    box-shadow: 0 0 14px rgba(0,240,255,0.2), inset 0 0 8px rgba(0,240,255,0.05);
+  }
+
+  .btn-run {
+    @apply w-full py-3 rounded-lg font-bold text-sm tracking-widest uppercase transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed select-none cursor-pointer;
+    font-family: 'JetBrains Mono', monospace;
+    background: linear-gradient(135deg, #00c8d4, #0066ff);
+    color: #000;
+    box-shadow: 0 0 20px rgba(0,240,255,0.25);
+  }
+  .btn-run:hover:not(:disabled) { box-shadow: 0 0 32px rgba(0,240,255,0.45); transform: translateY(-1px); }
+
+  .btn-ghost {
+    @apply w-full py-2.5 rounded-lg text-xs tracking-widest uppercase transition-all duration-150 cursor-pointer select-none;
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+
+  .section-label {
+    @apply text-xs uppercase tracking-widest mb-2.5;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--cyan-dim);
+  }
+
+  .log-entry {
+    @apply text-xs py-1 px-2.5 rounded transition-all;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+  }
+  .log-entry.active { color: #f59e0b; background: rgba(245,158,11,0.08); }
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--cyan);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,240,255,0.6);
+}
