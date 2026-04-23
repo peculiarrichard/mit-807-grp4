@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://your-sales-backend-url.vercel.app",
+        target: "https://sales-forecasting-be.vercel.app",
         changeOrigin: true,
       },
     },

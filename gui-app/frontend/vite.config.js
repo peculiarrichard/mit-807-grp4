@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://your-gui-backend-url.vercel.app",
+        target: "https://gui-app-be.vercel.app",
         changeOrigin: true,
       },
     },

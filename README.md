@@ -1,11 +1,11 @@
 # MIT807 Group 4 — AI Project Deliverables
 
-Two fully separate web applications:
+Two fully separate web applications deployed on Vercel:
 
-| App | Description | Port |
-|-----|-------------|------|
-| `gui-app/` | Search Algorithm Visualizer (DFS + BFS) | Flask :5000 / React :5173 |
-| `sales-app/` | AI Sales Forecasting (Linear Regression) | Flask :5001 / React :5174 |
+| App                  | Description                              | Live URLs                                                                                                |
+| -------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `gui-app/`           | Search Algorithm Visualizer (DFS + BFS)  | [Frontend](https://gui-app-fe.vercel.app) • [Backend](https://gui-app-be.vercel.app)                     |
+| `sales-forecasting/` | AI Sales Forecasting (Linear Regression) | [Frontend](https://sales-forecasting-fe.vercel.app) • [Backend](https://sales-forecasting-be.vercel.app) |
 
 ---
 
@@ -14,201 +14,179 @@ Two fully separate web applications:
 ```
 .
 ├── gui-app/
-│   ├── api/
-│   │   └── search.py          # Flask backend — DFS & BFS algorithms
-│   ├── src/
-│   │   ├── App.jsx            # React frontend — SVG graph visualizer
-│   │   ├── App.css
-│   │   └── main.jsx
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.js         # Proxies /api to Flask in dev
-│   ├── vercel.json            # Vercel deployment config
-│   └── requirements.txt
+│   ├── backend/
+│   │   ├── main.py            # Flask backend — DFS & BFS algorithms
+│   │   ├── requirements.txt   # Python dependencies
+│   │   ├── venv/              # Virtual environment
+│   │   ├── activate.bat       # Windows activation script
+│   │   └── api/index.py       # Vercel entry point
+│   ├── frontend/
+│   │   ├── src/
+│   │   │   ├── App.jsx        # React frontend — SVG graph visualizer
+│   │   │   └── App.css
+│   │   ├── package.json        # Node.js dependencies
+│   │   ├── vite.config.js     # Proxies /api to backend
+│   │   └── index.html
+│   └── vercel.json            # Vercel deployment config
 │
-├── sales-app/
-│   ├── api/
-│   │   └── forecast.py        # Flask backend — Linear Regression pipeline
-│   ├── src/
-│   │   ├── App.jsx            # React frontend — chart + metrics
-│   │   ├── App.css
-│   │   └── main.jsx
-│   ├── sample_data/
-│   │   └── sample_sales.csv   # 730-day synthetic sales dataset for testing
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.js         # Proxies /api to Flask in dev
-│   ├── vercel.json
-│   └── requirements.txt
+├── sales-forecasting/
+│   ├── backend/
+│   │   ├── main.py            # Flask backend — Linear Regression pipeline
+│   │   ├── requirements.txt   # Python dependencies (numpy, pandas, scikit-learn)
+│   │   ├── venv/              # Virtual environment
+│   │   ├── activate.bat       # Windows activation script
+│   │   └── api/index.py       # Vercel entry point
+│   ├── frontend/
+│   │   ├── src/
+│   │   │   ├── App.jsx        # React frontend — chart + metrics (Recharts)
+│   │   │   └── App.css
+│   │   ├── package.json        # Node.js dependencies
+│   │   ├── vite.config.js     # Proxies /api to backend
+│   │   └── index.html
+│   └── vercel.json            # Vercel deployment config
 │
-└── report/
-    └── MIT807_Group4_Sales_Forecasting_Report.docx
+├── DEPLOYMENT_GUIDE.md        # Complete deployment instructions
+└── sales sample.csv           # Sample sales data for testing
 ```
 
 ---
 
 ## Prerequisites
 
-Install these once on your machine before anything else.
-
-| Tool | Version | Install |
-|------|---------|---------|
-| Python | 3.11+ | https://python.org |
-| Node.js | 18+ | https://nodejs.org |
-| npm | 9+ | Comes with Node.js |
+| Tool    | Version | Install            |
+| ------- | ------- | ------------------ |
+| Python  | 3.13+   | https://python.org |
+| Node.js | 18+     | https://nodejs.org |
+| npm     | 9+      | Comes with Node.js |
 
 ---
 
-## Local Development — GUI App (Search Visualizer)
+## Local Development
 
-### 1. Install Python dependencies
+### GUI App (Search Visualizer)
+
+#### Backend Setup
 
 ```bash
-cd gui-app
+cd gui-app/backend
+.\activate.bat
 pip install -r requirements.txt
+python main.py
 ```
 
-### 2. Start the Flask backend
+Backend runs on **http://localhost:5000**
+
+#### Frontend Setup
 
 ```bash
-# Still inside gui-app/
-python api/search.py
-```
-
-Flask starts on **http://localhost:5000**. Leave this terminal open.
-
-### 3. Install frontend dependencies and start Vite
-
-Open a **second terminal**:
-
-```bash
-cd gui-app
+cd gui-app/frontend
 npm install
 npm run dev
 ```
 
-React dev server starts on **http://localhost:5173**.
+Frontend runs on **http://localhost:5173**
 
-Open your browser at `http://localhost:5173`. All `/api/search` calls are automatically proxied to Flask on port 5000.
+### Sales Forecasting App
 
-### How to use the GUI
-
-1. Use the **Nodes** slider to set the number of graph nodes (4–10).
-2. In **Add / Remove Edge** mode, click any node to select it, then click a second node to toggle an edge between them.
-3. Switch to **Set Start Node** mode and click any node to choose the traversal starting point.
-4. Select **DFS** or **BFS**.
-5. Click **▶ Run** to animate the traversal. Nodes change colour as they are visited.
-6. Click **↺ Reset** to clear the animation without changing the graph.
-
----
-
-## Local Development — Sales Forecasting App
-
-### 1. Install Python dependencies
+#### Backend Setup
 
 ```bash
-cd sales-app
+cd sales-forecasting/backend
+.\activate.bat
 pip install -r requirements.txt
+python main.py
 ```
 
-### 2. Start the Flask backend
+Backend runs on **http://localhost:5001**
+
+#### Frontend Setup
 
 ```bash
-# Still inside sales-app/
-python api/forecast.py
-```
-
-Flask starts on **http://localhost:5001**.
-
-### 3. Install frontend dependencies and start Vite
-
-Open a **second terminal**:
-
-```bash
-cd sales-app
+cd sales-forecasting/frontend
 npm install
 npm run dev
 ```
 
-React dev server starts on **http://localhost:5174**.
+Frontend runs on **http://localhost:5174**
 
-Open your browser at `http://localhost:5174`.
+---
 
-### How to use the Sales App
+## App Usage
 
-1. Click the upload zone and select a CSV file.
-   - Required columns: `date` (YYYY-MM-DD) and `sales` (numeric).
-   - A ready-made test file is at `sales-app/sample_data/sample_sales.csv`.
-2. Set the **Forecast Periods** (number of days to forecast, default 30).
-3. Click **▶ Generate Forecast**.
-4. View the interactive line chart (historical = blue, forecast = amber dashed).
-5. Review MAE, RMSE, and MAPE accuracy metrics.
-6. Click **⬇ Download CSV** to export results.
+### GUI App - Search Visualizer
 
-### CSV Format
+1. Use **Nodes** slider (4-10 nodes)
+2. **Edge Mode**: Click two nodes to toggle edges
+3. **Start Mode**: Click node to set starting point
+4. Select **DFS** or **BFS** algorithm
+5. Click **▶ Run** to animate traversal
+6. **↺ Reset** to clear animation
 
-```
+### Sales Forecasting App
+
+1. Upload CSV with `date` and `sales` columns
+2. Set **Forecast Periods** (default: 30 days)
+3. Click **▶ Generate Forecast**
+4. View interactive chart with metrics
+5. **⬇ Download CSV** to export results
+
+#### CSV Format
+
+```csv
 date,sales
 2022-01-01,1623.21
 2022-01-02,1626.78
-2022-01-03,1487.72
-...
 ```
 
 The backend also accepts these column name aliases:
 
-| Column | Accepted names |
-|--------|---------------|
-| date | `date`, `ds`, `day`, `datetime` |
-| sales | `sales`, `y`, `revenue`, `amount`, `quantity`, `demand` |
+| Column | Accepted names                                          |
+| ------ | ------------------------------------------------------- |
+| date   | `date`, `ds`, `day`, `datetime`                         |
+| sales  | `sales`, `y`, `revenue`, `amount`, `quantity`, `demand` |
 
 ---
 
-## Deploying to Vercel
+## Vercel Deployment
 
-Each app is deployed **independently** as its own Vercel project. Repeat these steps for each.
+Each app component is deployed **separately** from the same repository using Vercel's Root Directory setting.
 
-### Requirements
+### Dashboard Deployment Steps
 
-- A free Vercel account at https://vercel.com
-- Vercel CLI: `npm install -g vercel`
+1. **GUI App Backend**
+   - Import repository → Root Directory: `gui-app/backend`
+   - Framework: Python (auto-detected)
+   - Environment Variables: `PYTHON_VERSION=3.13`
 
-### Deploy gui-app
+2. **GUI App Frontend**
+   - Import repository → Root Directory: `gui-app/frontend`
+   - Framework: React (auto-detected)
+   - Build Command: `npm run build`
 
-```bash
-cd gui-app
-vercel
-```
+3. **Sales Forecasting Backend**
+   - Import repository → Root Directory: `sales-forecasting/backend`
+   - Framework: Python (auto-detected)
+   - Environment Variables: `PYTHON_VERSION=3.13`
 
-When prompted:
-- **Set up and deploy?** → Yes
-- **Which scope?** → Your account
-- **Link to existing project?** → No
-- **Project name?** → `mit807-gui-app` (or any name)
-- **In which directory is your code located?** → `./`
+4. **Sales Forecasting Frontend**
+   - Import repository → Root Directory: `sales-forecasting/frontend`
+   - Framework: React (auto-detected)
+   - Build Command: `npm run build`
 
-Vercel reads `vercel.json` automatically and configures:
-- Build: `npm run build` → `dist/`
-- API: `api/search.py` → serverless function at `/api/search`
-- All other routes → React SPA
+### Post-Deployment
 
-### Deploy sales-app
+After deploying backends, update frontend proxy URLs in `vite.config.js`:
 
-```bash
-cd sales-app
-vercel
-```
+- GUI App: `target: "https://gui-app-be.vercel.app"`
+- Sales App: `target: "https://sales-forecasting-be.vercel.app"`
 
-Same prompts. Use a different project name such as `mit807-sales-app`.
+Then redeploy frontends to apply changes.
 
-The `vercel.json` routes:
-- `/api/forecast` → `api/forecast.py` (Python serverless)
-- `/*` → React SPA
+### Final URLs
 
-### Environment Notes
-
-Vercel reads `requirements.txt` automatically for Python serverless functions.
-No additional environment variables are required for either app.
+- GUI App: Frontend + Backend deployed separately
+- Sales App: Frontend + Backend deployed separately
+- All components scale independently
 
 ---
 
@@ -234,24 +212,24 @@ Implementation uses `collections.deque` for O(1) enqueue/dequeue.
 
 The model is trained with eight engineered features per time step:
 
-| Feature | Description |
-|---------|-------------|
-| `_t` | Integer time index (global trend) |
-| `_dow` | Day of week (0–6) |
-| `_month` | Month (1–12) |
-| `_doy` | Day of year (1–365) |
-| `_year` | Year |
-| `_lag1` | Sales one period ago |
-| `_lag7` | Sales seven periods ago |
-| `_roll7` | 7-period rolling mean |
+| Feature  | Description                       |
+| -------- | --------------------------------- |
+| `_t`     | Integer time index (global trend) |
+| `_dow`   | Day of week (0–6)                 |
+| `_month` | Month (1–12)                      |
+| `_doy`   | Day of year (1–365)               |
+| `_year`  | Year                              |
+| `_lag1`  | Sales one period ago              |
+| `_lag7`  | Sales seven periods ago           |
+| `_roll7` | 7-period rolling mean             |
 
 Train/test split: 80% / 20%. Metrics are computed on the held-out 20%.
 Future periods are predicted iteratively; each prediction is appended to the sales window before the next step.
 
 **Accuracy on the sample dataset (730 days):**
 
-| MAE | RMSE | MAPE |
-|-----|------|------|
+| MAE   | RMSE  | MAPE  |
+| ----- | ----- | ----- |
 | 71.74 | 90.53 | 3.60% |
 
 ---
@@ -259,16 +237,29 @@ Future periods are predicted iteratively; each prediction is appended to the sal
 ## Troubleshooting
 
 **`ModuleNotFoundError: No module named 'flask'`**
-Run `pip install -r requirements.txt` inside the correct app directory.
+
+```bash
+cd [app]/backend
+.\activate.bat
+pip install -r requirements.txt
+```
 
 **`EADDRINUSE: address already in use`**
-Another process is using the port. Either stop it or change the port in `api/search.py` / `api/forecast.py` (last line) and update `vite.config.js` proxy target to match.
+Another process is using the port. Stop it or change port in `main.py` and update `vite.config.js` proxy.
 
-**CORS error in the browser console**
-This only occurs during local development if Flask is not running. Start Flask before starting Vite.
+**CORS error in browser console**
+Start Flask backend before starting Vite frontend.
 
 **`CSV must contain a 'date' column`**
-Make sure the CSV header is exactly `date` (lowercase). Rename the column if needed.
+Ensure CSV has `date` and `sales` columns (case-sensitive).
 
-**Vercel build fails with `No module named pandas`**
-Ensure `requirements.txt` is at the root of the app directory (next to `package.json`), not inside `api/`.
+**Vercel build fails with Python errors**
+
+- Check `PYTHON_VERSION=3.13` in environment variables
+- Verify `requirements.txt` is in backend root directory
+- Ensure all dependencies are Python 3.13 compatible
+
+**Frontend can't reach backend on Vercel**
+
+- Verify proxy URLs in `vite.config.js` match deployed backend URLs
+- Redeploy frontend after updating proxy configuration
