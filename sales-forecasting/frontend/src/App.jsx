@@ -75,7 +75,10 @@ export default function App() {
     fd.append('file', file)
     fd.append('periods', String(periods))
     try {
-      const res = await fetch('/api/forecast', { method: 'POST', body: fd })
+      const apiUrl = import.meta.env.PROD 
+        ? 'https://sales-forecasting-be.vercel.app/api/forecast'
+        : '/api/forecast'
+      const res = await fetch(apiUrl, { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok) { setError(data.error || 'Server error'); return }
       setResult(data)

@@ -107,7 +107,10 @@ export default function App() {
     if (animating) return
     stopAnimation(); setSteps([]); setStepIdx(-1); setLog([]); setStatus('running')
     try {
-      const res = await fetch('/api/search', {
+      const apiUrl = import.meta.env.PROD 
+        ? 'https://gui-app-be.vercel.app/api/search'
+        : '/api/search'
+      const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ num_nodes: numNodes, edges: Array.from(edges), start: startNode, algorithm })
